@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f4ec">
+  <title>PESITM ISE | Student Project Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="campus-header">
+    <a class="campus-brand" href="#home" aria-label="PESITM ISE Project Hub home">
+      <span class="campus-monogram">P</span>
+      <span class="brand-copy"><strong>PESITM</strong><small>SHIVAMOGGA · ISE</small></span>
+    </a>
+    <div class="header-course">INFORMATION SCIENCE &amp; ENGINEERING</div>
+    <time class="header-date" id="today"></time>
+  </header>
+
+  <main id="home">
+    <section class="ghats-hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="hero-kicker"><span></span> STUDENT PROJECTS · SHIVAMOGGA</p>
+        <h1 id="page-title">Ideas from here.<br><span>Built for everywhere.</span></h1>
+        <p class="hero-description">A shared workspace for Information Science &amp; Engineering projects at PESITM.</p>
+      </div>
+      <a class="photo-credit" href="https://commons.wikimedia.org/wiki/File:Western_ghats_of_Karnataka.jpg" target="_blank" rel="noreferrer">Agumbe, Western Ghats · Photo: Manjunath.huded / CC BY-SA 4.0</a>
+    </section>
+
+    <div class="dashboard">
+      <section class="overview" aria-label="Project overview">
+        <div class="overview-heading">
+          <div>
+            <p class="section-kicker">DEPARTMENT OVERVIEW</p>
+            <h2>Project register</h2>
+          </div>
+          <button class="primary-action" id="add-project" type="button"><span aria-hidden="true">+</span> Register project</button>
+        </div>
+
+        <div class="metrics" aria-live="polite">
+          <div class="metric metric-total"><span class="metric-label">ALL PROJECTS</span><strong id="total-count">0</strong></div>
+          <div class="metric metric-active"><span class="metric-label">IN PROGRESS</span><strong id="active-count">0</strong></div>
+          <div class="metric metric-review"><span class="metric-label">IN REVIEW</span><strong id="review-count">0</strong></div>
+          <div class="metric metric-complete"><span class="metric-label">COMPLETED</span><strong id="completed-count">0</strong></div>
+        </div>
+      </section>
+
+      <section class="register" aria-labelledby="register-heading">
+        <div class="register-heading">
+          <div>
+            <p class="section-kicker">ISE DEPARTMENT</p>
+            <h2 id="register-heading">Student projects</h2>
+          </div>
+          <span class="database-label"><span class="database-dot"></span> LOCAL DATABASE</span>
+        </div>
+
+        <div class="table-tools">
+          <label class="search-box">
+            <span aria-hidden="true">⌕</span>
+            <span class="sr-only">Search projects</span>
+            <input id="project-search" type="search" placeholder="Search projects, students, guides…" autocomplete="off">
+          </label>
+          <label class="filter-box">
+            <span class="sr-only">Filter by project status</span>
+            <select id="status-filter">
+              <option value="all">All statuses</option>
+              <option value="Proposed">Proposed</option>
+              <option value="In Progress">In progress</option>
+              <option value="Review">In review</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="table-scroll">
+          <table class="projects-table">
+            <thead>
+              <tr>
+                <th scope="col">PROJECT</th>
+                <th scope="col">STUDENT TEAM</th>
+                <th scope="col">FACULTY GUIDE</th>
+                <th scope="col">SEMESTER</th>
+                <th scope="col">STATUS</th>
+                <th scope="col">DEADLINE</th>
+                <th scope="col"><span class="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="project-list"></tbody>
+          </table>
+          <div class="empty-register" id="empty-state">
+            <span class="empty-symbol" aria-hidden="true">✳</span>
+            <strong id="empty-heading">Your project register starts here.</strong>
+            <span id="empty-copy">Add a student project to keep teams, guides and milestones in one place.</span>
+            <button class="empty-add" id="empty-add" type="button">Register the first project <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+
+        <footer class="register-footer">
+          <span id="project-count-label">0 projects</span>
+          <span>Saved on this device · IndexedDB</span>
+        </footer>
+      </section>
+      <p class="privacy-note">Project records stay in this browser and are not shared or synced.</p>
+    </div>
+  </main>
+
+  <dialog class="project-dialog" id="project-dialog" aria-labelledby="dialog-title">
+    <form id="project-form">
+      <div class="dialog-topline">
+        <div>
+          <p class="section-kicker" id="dialog-kicker">NEW ISE PROJECT</p>
+          <h2 id="dialog-title">Register a project</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Close dialog">×</button>
+      </div>
+      <input id="project-id" name="id" type="hidden">
+      <label class="form-label" for="project-title">Project title <span>*</span></label>
+      <input class="form-control" id="project-title" name="title" type="text" maxlength="120" placeholder="e.g. Smart campus navigation" required>
+
+      <div class="form-grid">
+        <div>
+          <label class="form-label" for="project-team">Student team <span>*</span></label>
+          <input class="form-control" id="project-team" name="team" type="text" maxlength="140" placeholder="Names, separated by commas" required>
+        </div>
+        <div>
+          <label class="form-label" for="project-guide">Faculty guide</label>
+          <input class="form-control" id="project-guide" name="guide" type="text" maxlength="100" placeholder="Guide name">
+        </div>
+        <div>
+          <label class="form-label" for="project-semester">Semester</label>
+          <select class="form-control" id="project-semester" name="semester">
+            <option value="Semester 3">Semester 3</option>
+            <option value="Semester 5">Semester 5</option>
+            <option value="Semester 7" selected>Semester 7</option>
+            <option value="Semester 8">Semester 8</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label" for="project-status">Status</label>
+          <select class="form-control" id="project-status" name="status">
+            <option value="Proposed">Proposed</option>
+            <option value="In Progress" selected>In progress</option>
+            <option value="Review">In review</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+        <div class="deadline-field">
+          <label class="form-label" for="project-deadline">Target deadline</label>
+          <input class="form-control" id="project-deadline" name="deadline" type="date">
+        </div>
+      </div>
+      <p class="form-error" id="form-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button class="secondary-action" type="button" data-close-dialog>Cancel</button>
+        <button class="primary-action" id="save-project" type="submit">Save project</button>
+      </div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
